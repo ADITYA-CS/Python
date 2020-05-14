@@ -8,6 +8,12 @@ moves_data = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
 #  Functions
 #
 
+def print_coordinate():
+	print(" -----------------")
+	print("|(1,3) (2,3) (3,3)|")
+	print("|(1,2) (2,2) (2,3)|")
+	print("|(1,1) (1,2) (1,3)|")
+	print(" -----------------")
 
 def print_tic_tac_toe(matrix):  # printing tic-tac-toe matrix
     print("---------")
@@ -48,8 +54,8 @@ def draw(matrix):  # checking for draw condition
 
 
 def read_coordinate():  # analysing the coordinates input
-    # text = input("Enter the coordinates: ")
-    text = input()
+    text = input("Enter the coordinates: ")
+    # text = input()
     text_list = text.split()
     for a in text_list:
         for d in a:
@@ -90,7 +96,7 @@ def coordinate_to_index(coordinate):  # mapping coordinate to index
 #  Functions ends here
 #
 
-
+print_coordinate()
 print_tic_tac_toe(moves_data)  # printing empty matrix
 toggle = 1  # to toggle between 'X' and 'O'
 while True:

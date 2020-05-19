@@ -1,28 +1,70 @@
 #
-#   Coffice Machine
-#   without using class
+#   Coffee Machine
+#
 
 
-water_in_stock = 400
-milk_in_stock = 540
-coffee_bean_in_stock = 120
-money = 550
-disposable_cups = 9
+class CoffeeMachine():
 
-espresso_water = 250
-espresso_milk = 0
-espresso_coffee = 16
-espresso_price = 4
+    water_in_stock = 0
+    milk_in_stock = 0
+    coffee_bean_in_stock = 0
+    money = 0
+    disposable_cups = 0
 
-latte_water = 350
-latte_milk = 75
-latte_coffee = 20
-latte_price = 7
+    def __init__(self, water, milk, coffee_bean, price):
+        self.water = water
+        self.milk = milk
+        self.coffee_bean = coffee_bean
+        self.price = price
 
-cappuccino_water = 200
-cappuccino_milk = 100
-cappuccino_coffee = 12
-cappuccino_price = 6
+    def fill(self, water, milk, coffee_bean, disposable_cups):
+        CoffeeMachine.water_in_stock += water
+        CoffeeMachine.milk_in_stock += milk
+        CoffeeMachine.coffee_bean_in_stock += coffee_bean
+        CoffeeMachine.disposable_cups += disposable_cups
+
+    # returning string for print, could have printed here
+    # just keeping interaction with stdin/stdout minimal
+    def take(self):
+        temp = CoffeeMachine.money
+        CoffeeMachine.money = 0
+        return f"I gave you ${temp}"
+
+    def buy(self):
+        if CoffeeMachine.water_in_stock < self.water:
+            return "Sorry, not enough water!"
+        if CoffeeMachine.milk_in_stock < self.milk:
+            return "Sorry, not enough milk!"
+        if CoffeeMachine.coffee_bean_in_stock < self.coffee_bean:
+            return "Sorry, not enough coffee beans"
+        if CoffeeMachine.disposable_cups == 0:
+            return "Sorry, not enough disposable cups"
+
+        CoffeeMachine.water_in_stock -= self.water
+        CoffeeMachine.milk_in_stock -= self.milk
+        CoffeeMachine.coffee_bean_in_stock -= self.coffee_bean
+        CoffeeMachine.money += self.price
+        CoffeeMachine.disposable_cups -= 1
+        return "I have enough resources, making you a coffee!"
+
+    def __str__(self):
+        string =  f'''The coffee machine has:
+{CoffeeMachine.water_in_stock} ml of water
+{CoffeeMachine.milk_in_stock} ml of milk
+{CoffeeMachine.coffee_bean_in_stock} g of coffee beans
+{CoffeeMachine.disposable_cups} of disposable cups
+${CoffeeMachine.money} of money'''
+        return string
+
+
+# three object of CoffeeMachine
+espresso = CoffeeMachine(250, 0, 16, 4)
+latte = CoffeeMachine(350, 75, 20, 7)
+cappuccino = CoffeeMachine(200, 100, 12, 6)
+
+# initial resources
+espresso.fill(400, 540, 120, 9)
+CoffeeMachine.money = 550
 
 
 while True:
@@ -30,12 +72,7 @@ while True:
     action = input()
     if action == "remaining":
         print()
-        print("The coffee machine has:")
-        print(f'{water_in_stock} ml of water')
-        print(f'{milk_in_stock} ml of milk')
-        print(f'{coffee_bean_in_stock} g of coffee beans')
-        print(f'{disposable_cups} of disposable cups')
-        print(f'${money} of money')
+        print(espresso)
         print()
     elif action == 'exit':
         break
@@ -48,86 +85,27 @@ while True:
             continue
         else:
             action = int(action)
-        if action == 3:
-            if water_in_stock < cappuccino_water:
-                print("Sorry, not enough water!")
-                print()
-                continue
-            if milk_in_stock < cappuccino_milk:
-                print("Sorry, not enough milk!")
-                print()
-                continue
-            if coffee_bean_in_stock < cappuccino_coffee:
-                print("Sorry, not enough coffee beans")
-                print()
-                continue
-            if disposable_cups < 1:
-                print("Sorry, not enough disposable cups")
-                print()
-                continue
-            water_in_stock -= cappuccino_water
-            milk_in_stock -= cappuccino_milk
-            coffee_bean_in_stock -= cappuccino_coffee
-            money += cappuccino_price
+
+        if action == 1:
+            print(espresso.buy())
         elif action == 2:
-            if water_in_stock < latte_water:
-                print("Sorry, not enough water!")
-                print()
-                continue
-            if milk_in_stock < latte_milk:
-                print("Sorry, not enough milk!")
-                print()
-                continue
-            if coffee_bean_in_stock < latte_coffee:
-                print("Sorry, not enough coffee beans")
-                print()
-                continue
-            if disposable_cups < 1:
-                print("Sorry, not enough disposable cups")
-                print()
-                continue
-            water_in_stock -= latte_water
-            milk_in_stock -= latte_milk
-            coffee_bean_in_stock -= latte_coffee
-            money += latte_price
+            print(latte.buy())
         else:
-            if water_in_stock < espresso_water:
-                print("Sorry, not enough water!")
-                print()
-                continue
-            if milk_in_stock < espresso_milk:
-                print("Sorry, not enough milk!")
-                print()
-                continue
-            if coffee_bean_in_stock < espresso_coffee:
-                print("Sorry, not enough coffee beans")
-                print()
-                continue
-            if disposable_cups < 1:
-                print("Sorry, not enough disposable cups")
-                print()
-                continue
-            water_in_stock -= espresso_water
-            milk_in_stock -= espresso_milk
-            coffee_bean_in_stock -= espresso_coffee
-            money += espresso_price
-        disposable_cups -= 1
-        print("I have enough resources, making you a coffee!")
+            print(cappuccino.buy())
         print()
     elif action == 'fill':
         print()
         print("Write how many ml of water do you want to add:")
-        water_in_stock += int(input())
+        water = int(input())
         print("Write how many ml of milk do you want to add:")
-        milk_in_stock  += int(input())
+        milk  = int(input())
         print("Write how many grams of coffee beans do you want to add:")
-        coffee_bean_in_stock  += int(input())
+        coffee_bean  = int(input())
         print("Write how many disposable cups of coffee do you want to add:")
-        disposable_cups  += int(input())
+        disposable_cups  = int(input())
+        espresso.fill(water, milk, coffee_bean, disposable_cups)
         print()
     else:
         print()
-        print(f"I gave you ${money}")
+        print(espresso.take())
         print()
-        money = 0
-

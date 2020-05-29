@@ -36,9 +36,9 @@ class CoffeeMachine():
         if CoffeeMachine.milk_in_stock < self.milk:
             return "Sorry, not enough milk!"
         if CoffeeMachine.coffee_bean_in_stock < self.coffee_bean:
-            return "Sorry, not enough coffee beans"
+            return "Sorry, not enough coffee beans!"
         if CoffeeMachine.disposable_cups == 0:
-            return "Sorry, not enough disposable cups"
+            return "Sorry, not enough disposable cups!"
 
         CoffeeMachine.water_in_stock -= self.water
         CoffeeMachine.milk_in_stock -= self.milk
